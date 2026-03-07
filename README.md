@@ -22,6 +22,10 @@ The assignemnt required the students to:
 4. inventory i 
 <img width="1340" height="333" alt="image" src="https://github.com/user-attachments/assets/e27c7c94-f7d2-4eae-875d-dedf6fa74681" />
 
+## Sample SQL Queries
+
+
+
 ## Author
 Peter Kinywa Mutua, Data Analyst
 
