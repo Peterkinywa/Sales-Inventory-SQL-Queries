@@ -24,7 +24,11 @@ The assignemnt required the students to:
 
 ## Sample SQL Queries
 
+<img width="1283" height="524" alt="image" src="https://github.com/user-attachments/assets/f2a826d0-03dd-4527-8aec-608a4aebf666" />
 
+<img width="1295" height="637" alt="image" src="https://github.com/user-attachments/assets/95d2c7e1-7328-4ae4-bb1e-a62643e9cac0" />
+
+<img width="1293" height="513" alt="image" src="https://github.com/user-attachments/assets/a0af7fa3-ffd9-46ce-a479-454773ce4d83" />
 
 ## Author
 Peter Kinywa Mutua, Data Analyst
