@@ -23,11 +23,7 @@ The assignemnt required the students to:
 <img width="1340" height="333" alt="image" src="https://github.com/user-attachments/assets/e27c7c94-f7d2-4eae-875d-dedf6fa74681" />
 
 ## Sample SQL Queries
-Below are snippets of a few SQL queries/Questions from my SQL Editor on DBeaver;
-
-<img width="1283" height="524" alt="image" src="https://github.com/user-attachments/assets/f2a826d0-03dd-4527-8aec-608a4aebf666" />
-
-<img width="1295" height="637" alt="image" src="https://github.com/user-attachments/assets/95d2c7e1-7328-4ae4-bb1e-a62643e9cac0" />
+Below is a snippet from question 46-50 from my SQL Editor on DBeaver;
 
 <img width="1293" height="513" alt="image" src="https://github.com/user-attachments/assets/a0af7fa3-ffd9-46ce-a479-454773ce4d83" />
 
