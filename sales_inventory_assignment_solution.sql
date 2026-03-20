@@ -658,10 +658,51 @@ having sum(s.total_amount) > (select avg(s2.total_amount) from sales s2);
 -- ADVANCED WINDOW + ANALYTICAL PROBLEMS
 -- =====================================================
 -- 91. Which customers rank in the top 10% of spending?
+select customer_id, first_name, last_name, total_spent
+from (
+    select 
+        c.customer_id,
+        c.first_name,
+        c.last_name,
+        sum(s.total_amount) as total_spent
+    from customers c
+    join sales s on c.customer_id = s.customer_id
+    group by c.customer_id, c.first_name, c.last_name
+    order by total_spent desc
+) as totals
+limit ceil((select count(*) from customers) * 0.10);
 
 -- 92. Which products contribute to the top 50% of total revenue?
+with product_revenue as (
+    select 
+        p.product_id,
+        p.product_name,
+        sum(s.total_amount) as total_revenue
+    from products p
+    join sales s on p.product_id = s.product_id
+    group by p.product_id, p.product_name
+),
+revenue_cumsum as (
+    select
+        product_id,
+        product_name,
+        total_revenue,
+        sum(total_revenue) over (order by total_revenue desc) as cumulative_revenue,
+        sum(total_revenue) over () as total_revenue_all
+    from product_revenue
+)
+select
+    product_id,
+    product_name,
+    total_revenue,
+    cumulative_revenue,
+    cumulative_revenue / total_revenue_all as cumulative_pct
+from revenue_cumsum
+where cumulative_revenue / total_revenue_all <= 0.50
+order by cumulative_revenue desc;
 
 -- 93. Which customers made purchases in consecutive months?
+
 
 -- 94. Which products experienced the largest difference between stock quantity and total quantity sold?
 
