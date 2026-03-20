@@ -606,25 +606,89 @@ having sum(s.quantity_sold) > (select avg(s2.quantity_sold) from sales s2);
 -- WINDOW FUNCTION QUESTIONS
 -- =====================================================
 -- 71. Rank customers based on the total amount they have spent.
+SELECT c.customer_id, c.first_name, c.last_name, SUM(s.total_amount) AS total_spent,
+    RANK() OVER (ORDER BY SUM(s.total_amount) DESC) AS rank_spending
+FROM sales s
+JOIN customers c ON s.customer_id = c.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY rank_spending;
 
 -- 72. Rank products based on total quantity sold.
+SELECT p.product_id, p.product_name, SUM(s.quantity_sold) AS total_quantity_sold,
+    RANK() OVER (ORDER BY SUM(s.quantity_sold) DESC) AS rank_quantity
+FROM sales s
+JOIN products p ON s.product_id = p.product_id
+GROUP BY p.product_id, p.product_name
+ORDER BY rank_quantity;
 
 -- 73. Identify the 3rd highest spending customer.
+SELECT customer_id, first_name, last_name, total_spent
+FROM (
+    SELECT c.customer_id, c.first_name, c.last_name,
+        SUM(s.total_amount) AS total_spent,
+        DENSE_RANK() OVER (ORDER BY SUM(s.total_amount) DESC) AS rank
+    FROM customers c
+    JOIN sales s ON c.customer_id = s.customer_id
+    GROUP BY c.customer_id, c.first_name, c.last_name
+) t
+WHERE rank = 3;
 
 -- 74. Identify the 2nd most expensive product.
+SELECT product_id, product_name, price
+FROM (
+    SELECT product_id,product_name, price,
+        DENSE_RANK() OVER (ORDER BY price DESC) AS rank
+    FROM products
+) t
+WHERE rank = 2;
 
 -- 75. Show the ranking of products within each category based on price.
+SELECT p.category, p.product_id, p.product_name, p.price,
+    RANK() OVER (PARTITION BY p.category ORDER BY price DESC) AS rank_in_category
+FROM products p
+ORDER BY p.category, rank_in_category;
 
 -- 76. Show the ranking of customers based on the number of purchases they made.
+SELECT c.customer_id, c.first_name, c.last_name,
+    COUNT(s.sale_id) AS num_purchases,
+    RANK() OVER (ORDER BY COUNT(s.sale_id) DESC) AS rank_purchases
+FROM customers c
+JOIN sales s ON c.customer_id = s.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY rank_purchases;
 
 -- 77. Show the running total of sales amounts ordered by sale_date.
+SELECT s.sale_id, s.sale_date, s.total_amount,
+    SUM(s.total_amount) OVER (ORDER BY sale_date) AS running_total
+FROM sales s
+ORDER BY s.sale_date;
 
 -- 78. Show the previous sale amount for each sale ordered by sale_date.
+SELECT s.sale_id, s.sale_date, s.total_amount,
+    LAG(s.total_amount) OVER (ORDER BY sale_date) AS previous_sale_amount
+FROM sales s
+ORDER BY s.sale_date;
 
 -- 79. Show the next sale amount for each sale ordered by sale_date.
+SELECT s.sale_id, s.sale_date,s.total_amount,
+    LEAD(s.total_amount) OVER (ORDER BY sale_date) AS next_sale_amount
+FROM sales s
+ORDER BY s.sale_date;
 
 -- 80. Divide customers into 4 groups based on total spending.
-
+SELECT customer_id, first_name, last_name, total_spent,
+    NTILE(4) OVER (ORDER BY total_spent DESC) AS spending_quartile
+FROM (
+    SELECT 
+        c.customer_id,
+        c.first_name,
+        c.last_name,
+        SUM(s.total_amount) AS total_spent
+    FROM customers c
+    JOIN sales s ON c.customer_id = s.customer_id
+    GROUP BY c.customer_id, c.first_name, c.last_name
+) t
+ORDER BY spending_quartile, total_spent DESC;
 
 -- =====================================================
 -- ADVANCED ANALYTICAL QUESTIONS
