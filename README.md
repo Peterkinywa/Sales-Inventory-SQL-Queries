@@ -22,11 +22,6 @@ The assignemnt required the students to:
 4. inventory i 
 <img width="1340" height="333" alt="image" src="https://github.com/user-attachments/assets/e27c7c94-f7d2-4eae-875d-dedf6fa74681" />
 
-## Sample SQL Queries
-Below is a snippet of question 46-50 from my SQL Editor on DBeaver;
-
-<img width="1293" height="513" alt="image" src="https://github.com/user-attachments/assets/a0af7fa3-ffd9-46ce-a479-454773ce4d83" />
-
 ## Author
 Peter Kinywa Mutua, Data Analyst
 
