@@ -1,5 +1,5 @@
 # Sales-Inventory-SQL-Queries
-This repository contains solutions to a series of SQL Queries shared for tackling. I used my local postgres database locally on DBeaver, a universal database management engine.
+This repository contains solutions to a series of SQL Queries. I used my local postgres database and connected it locally on DBeaver, a universal database management engine.
 
 <img width="1917" height="1147" alt="image" src="https://github.com/user-attachments/assets/ee6c04b6-f157-4785-907f-5edca5e15d25" />
 
