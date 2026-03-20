@@ -646,6 +646,10 @@ having sum(s.quantity_sold) > (select avg(s2.quantity_sold) from sales s2);
 -- 88. Which products were purchased by the highest number of unique customers?
 
 -- 89. Which customers made purchases above the average sale amount?
+select c.customer_id, c.first_name, c.last_name from customers c 
+join sales s on c.customer_id = s.customer_id
+group by c.customer_id, c.first_name, c.last_name
+having sum(s.total_amount) > (select avg(s2.total_amount) from sales s2);
 
 -- 90. Which customers purchased more products than the average quantity purchased per customer?
 
