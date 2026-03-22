@@ -891,7 +891,6 @@ order by cumulative_revenue desc;
 
 -- 93. Which customers made purchases in consecutive months?
 
-
 -- 94. Which products experienced the largest difference between stock quantity and total quantity sold?
 
 -- 95. Which customers have spending above the average spending of their membership tier?
