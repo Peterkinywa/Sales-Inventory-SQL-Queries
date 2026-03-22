@@ -657,10 +657,26 @@ order by total_revenue desc;
 
 -- 69. Create an intermediate result that calculates the number of sales per product,
 --     then determine which products were purchased by more than three customers.
+with number_of_sales_per_product as (
+	select s.product_id, p.product_name, count(distinct s.customer_id) as sales_per_product
+	from customers c join sales s on c.customer_id = s.customer_id
+	join products p on s.product_id = p.product_id
+	group by s.product_id, p.product_name
+)
+select * from number_of_sales_per_product 
+where sales_per_product > 3;
 
 -- 70. Create an intermediate result showing total quantity sold per product,
 --     then identify products that sold less than the average quantity sold.
+select avg(s.quantity_sold) from sales s;
 
+with total_quantity_sold_per_product as (
+	select p.product_id, sum(s.quantity_sold) as quantity_sold from sales s 
+	join products p on s.product_id = p.product_id
+	group by p.product_id 
+)
+select * from total_quantity_sold_per_product 
+where quantity_sold < (select avg(quantity_sold) from total_quantity_sold_per_product);
 
 -- =====================================================
 -- WINDOW FUNCTION QUESTIONS
