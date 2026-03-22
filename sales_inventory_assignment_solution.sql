@@ -626,12 +626,34 @@ where total_quantity > (select avg(total_quantity) from total_quantity_sold);
 
 -- 66. Create an intermediate result that calculates total spending per customer,
 --     then determine which customers spent more than the average spending.
-
+with customer_spending as (
+	select c.customer_id, sum(s.total_amount) as total_spent from customers c 
+	join sales s on c.customer_id = s.customer_id 
+	group by c.customer_id
+)
+select * from customer_spending 
+where total_spent > (select avg(total_spent) from customer_spending)
+order by customer_spending desc;
+	
 -- 67. Create an intermediate result that calculates total revenue per product,
 --     then list the products ordered from highest revenue to lowest.
+with total_revenue_per_product as (
+	select p.product_id, p.product_name, sum(s.total_amount) as total_revenue from products p 
+	join sales s on p.product_id = s.product_id 
+	group by p.product_id, p.product_name
+)
+select * from total_revenue_per_product 
+order by total_revenue desc;
 
 -- 68. Create an intermediate result showing monthly sales totals,
 --     then determine which month had the highest revenue.
+with monthly_sales as (
+	select extract(month from s.sale_date) as month, extract(year from s.sale_date) as year,
+	sum(s.total_amount) as total_revenue from sales s 
+	group by "month", "year" 
+)
+select * from monthly_sales 
+order by total_revenue desc; 
 
 -- 69. Create an intermediate result that calculates the number of sales per product,
 --     then determine which products were purchased by more than three customers.
