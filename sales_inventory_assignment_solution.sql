@@ -891,13 +891,53 @@ order by cumulative_revenue desc;
 
 -- 93. Which customers made purchases in consecutive months?
 
+
 -- 94. Which products experienced the largest difference between stock quantity and total quantity sold?
 
 -- 95. Which customers have spending above the average spending of their membership tier?
 
+with customer_spend as (
+    select c.customer_id, c.membership_status,
+           SUM(s.total_amount) as total_spent
+    from customers c
+    join sales s on c.customer_id = s.customer_id
+    group by c.customer_id, c.membership_status
+),
+membership_status_avg as (
+    select membership_status,
+           AVG(total_spent) as avg_spent
+    from customer_spend
+    group by membership_status
+)
+select cs.*
+from customer_spend cs
+join membership_status_avg msavg 
+  on cs.membership_status = msavg.membership_status
+where cs.total_spent > msavg.avg_spent
+order by total_spent desc;
+
+select * from customers;
+
 -- 96. Which products have higher sales than the average sales within their category?
+select * from sales s;
+
+select * from products p;
+
+with total_sales as (
+	select p.product_id, p.product_name, p.category, sum(s.total_amount) as sum_of_sales from products p 
+	join sales s on p.product_id = s.product_id
+	group by p.product_id, p.product_name, p.category 
+),
+sales_average as (
+	select category, avg(sum_of_sales) as avg_sales from total_sales 
+	group by category 
+)
+select * from total_sales ts join sales_average sa on ts.category = sa.category 
+where ts.sum_of_sales > sa.avg_sales
+order by sum_of_sales desc;
 
 -- 97. Which customer made the largest single purchase relative to their total spending?
+
 
 -- 98. Which products rank among the top 3 most sold products within each category?
 
